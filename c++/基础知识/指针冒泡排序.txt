@@ -1,0 +1,60 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-03
+
+Description:指针、函数、数组共用实现冒泡排序
+
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************
+
+目的：利用子函数实现冒泡排序
+异常：
+操作：
+疑问：
+
+**************************************************/
+void arr_sort(int *arr,int len)       // 作为行参数，数组退化为指针
+{
+    int temp = 0;
+    for(int i=1;i<len;i++)
+    {
+        for(int j=1;j<len-i+1;j++)
+        {
+            if(arr[j-1]>arr[j])
+            {
+                temp = arr[j-1];
+                arr[j-1] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+}
+int main()
+{
+    int arr[] = {1,2,4,6,5,3,9,7,8};
+    int arr_length = sizeof(arr)/sizeof(arr[0]);
+    cout<<"数组长度为"<<arr_length<<endl;
+
+    cout<<"排序前数组为"<<endl;
+    for(int i=0;i<arr_length;i++)
+        cout<<arr[i]<<'\t';
+    cout<<endl;
+
+    arr_sort(arr,arr_length);
+
+    cout<<"排序后的数组为"<<endl;
+    for(int j=0;j<arr_length;j++)
+        cout<<arr[j]<<'\t';
+
+}

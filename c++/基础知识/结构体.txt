@@ -1,0 +1,77 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-03
+
+Description:结构体指针、结构体数组
+
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************
+
+目的：实现结构体数组、结构体指针
+异常：
+操作：
+疑问：
+
+**************************************************/
+struct Student
+{
+    string name;
+    int age;
+    int score;
+};
+
+struct Teacher
+{
+    string name;
+    int age;
+    struct Student stu;
+};
+
+void print_struct(const Student *s)
+{
+    // s->age = 19;  此时age不能改，因为用了const
+    cout<<"age = "<<s->age<<"name = "<<s->name<<"score = "<<s->score<<endl;
+}
+
+int main()
+{
+    struct Student s2;     // 可定义完再赋值
+    s2={"qq",11,1000};
+    cout<<s2.name<<endl;
+
+    // 结构体数组(数组元素为结构体)
+    struct Student arr_student[3] = {{"zhansan",18,100},{"haoer",18,90},{"yuaner",16,105}};
+    cout<<arr_student[0].name<<arr_student[1].name<<arr_student[2].name<<endl;
+
+    // 结构体指针（指向结构体的指针）
+    struct Student *p;
+    p = arr_student;
+    cout<<p[0].name<<p[1].name<<endl;
+
+
+    // 结构体嵌套结构体
+    struct Teacher t1 = {"laoliu",30,{"haoer",18,90}};   // 第一种赋值方式
+    cout<<t1.age<<t1.name<<t1.stu.name<<endl;
+
+    struct Teacher t2;   // 第二种赋值方式，定义完再赋值。
+    t2.age = 34;
+    t2.name = "laochen";
+    t2.stu = {"chener",19,88};
+    cout<<t2.stu.name<<endl;
+
+    // const 修饰防止误操作
+    print_struct(&s2);  // 地址操作容易误操作
+
+
+}

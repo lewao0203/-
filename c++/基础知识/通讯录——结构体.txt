@@ -1,0 +1,286 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-05
+
+Description:通讯录管理系统
+            * 添加联系人：向通讯录中添加新人，信息包括（姓名、性别、年龄、联系电话、家庭住址）最多记录1000人
+            * 显示联系人：显示通讯录中所有联系人信息
+            * 删除联系人：按照姓名进行删除指定联系人
+            * 查找联系人：按照姓名查看指定联系人信息
+            * 修改联系人：按照姓名重新修改指定联系人
+            * 清空联系人：清空通讯录中所有信息
+            * 退出通讯录：退出当前使用的通讯录
+
+noted : 1、结构体中，若用int定义电话号码，过长，汇出错。故用了string
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+#define MAXSIZE 1000
+using namespace std;
+
+struct Person
+{
+    string name;
+    string sex;
+    string age;
+    string phonenum;
+    string address;
+};
+
+struct AddressBook
+{
+    struct Person arr_person[MAXSIZE];
+    int len_now;
+};
+
+void InitAB(struct AddressBook *ab)
+{
+    ab->len_now = 0;
+    cout<<"********** 初始化完成!!! **********"<<endl;
+}
+
+void DisplayMenu()
+{
+    cout << "***************************" << endl;
+	cout << "*****  1、添加联系人  *****" << endl;
+	cout << "*****  2、显示联系人  *****" << endl;
+	cout << "*****  3、删除联系人  *****" << endl;
+	cout << "*****  4、查找联系人  *****" << endl;
+	cout << "*****  5、修改联系人  *****" << endl;
+	cout << "*****  6、清空联系人  *****" << endl;
+	cout << "*****  0、退出通讯录  *****" << endl;
+	cout << "***************************" << endl;
+}
+/*************************************************
+
+目的：添加联系人
+异常：通讯录已满，无法添加
+操作：分别赋值，且将通讯录加1
+疑问：
+
+**************************************************/
+void AddPerson(struct AddressBook *ab)
+{
+    int len = ab->len_now;
+
+    if(len >= MAXSIZE-1)
+        cout<<"内存已满，无法添加";
+    else
+    {
+        cout<<"请输入添加联系人的姓名"<<endl;
+        cin>>ab->arr_person[len].name;
+        cout<<"请输入添加联系人的性别"<<endl;
+        cin>>ab->arr_person[len].sex;
+        cout<<"请输入添加联系人的年龄"<<endl;
+        cin>>ab->arr_person[len].age;
+        cout<<"请输入添加联系人的电话"<<endl;
+        cin>>ab->arr_person[len].phonenum;
+        cout<<"请输入添加联系人的地址"<<endl;
+        cin>>ab->arr_person[len].address;
+
+        ab->len_now ++;
+    }
+    cout<<"********** 添加完成!!! 详细信息为：**********"<<endl;
+    cout<<"name = "<<ab->arr_person[len].name<<"\tsex = "<<ab->arr_person[len].sex
+        <<"\tage = "<<ab->arr_person[len].age<<"\tphonenum = "<<ab->arr_person[len].phonenum
+        <<"\taddress = "<<ab->arr_person[len].address<<endl;
+    cout<<endl;
+
+}
+
+void DisplayAB(const struct AddressBook *ab)
+{
+    int len = ab->len_now;
+    cout<<"一共有"<<len<<"位联系人"<<endl;
+    for(int i=0;i<len;i++)
+    {
+        cout<<"第"<<i+1<<"位联系人的信息为"<<endl;
+        cout<<"name = "<<ab->arr_person[i].name<<"\tsex = "<<ab->arr_person[i].sex
+        <<"\tage = "<<ab->arr_person[i].age<<"\tphonenum = "<<ab->arr_person[i].phonenum
+        <<"\taddress = "<<ab->arr_person[i].address<<endl;
+    }
+    cout<<"********** 显示完成!!! **********"<<endl;
+
+}
+
+/*************************************************
+
+目的：删除联系人
+异常：通讯录已空，无法删除。无该联系人
+操作：1、寻找姓名词条对应的通讯录位置
+       2、若不为最后一元素，则将后面的均往前移,且通讯录数目减一
+疑问：
+
+**************************************************/
+int SearchIndex(const struct AddressBook *ab,string name_s)
+{
+    int len = ab->len_now;
+    if(len == 0)
+        cout<<"无联系人"<<endl;
+    else
+    {
+        for(int i =0;i<len;i++)
+        {
+            if(ab->arr_person[i].name == name_s)
+                return i;
+        }
+        cout<<"无该联系人信息"<<endl;
+    }
+    return MAXSIZE;
+
+}
+
+void DeleteAB(struct AddressBook *ab,string name_s)
+{
+    int len = ab->len_now;
+    int index = SearchIndex(ab,name_s);
+
+    if(index != MAXSIZE)
+    {
+        if(index != len-1)
+        {
+            for(int i=index;i<len;i++)
+            {
+                ab->arr_person[i].name = ab->arr_person[i+1].name;
+                ab->arr_person[i].age = ab->arr_person[i+1].age;
+                ab->arr_person[i].sex = ab->arr_person[i+1].sex;
+                ab->arr_person[i].phonenum = ab->arr_person[i+1].phonenum;
+                ab->arr_person[i].address = ab->arr_person[i+1].address;
+            }
+            ab->len_now --;
+
+        }
+        else
+            ab->len_now --;
+        cout<<"********** 删除完成!!! **********"<<endl;
+
+    }
+
+
+}
+
+void SearchPerson(const struct AddressBook *ab,string name_s)
+{
+    int index = SearchIndex(ab,name_s);
+    if(index != MAXSIZE)
+    {
+        cout<<"********** 寻找完成!!! **********"<<endl;
+
+        cout<<"该联系人的信息为"<<endl;
+        cout<<"name = "<<ab->arr_person[index].name<<"\tsex = "<<ab->arr_person[index].sex
+            <<"\tage = "<<ab->arr_person[index].age<<"\tphonenum = "<<ab->arr_person[index].phonenum
+            <<"\taddress = "<<ab->arr_person[index].address<<endl;
+    }
+
+}
+
+void ModifyPerson(struct AddressBook *ab,string name_s)
+{
+    int len = ab->len_now;
+    int index = SearchIndex(ab,name_s);
+
+    if(index != 0)
+    {
+        cout<<"该联系人的原信息为"<<endl;
+        cout<<"name = "<<ab->arr_person[index].name<<"\tsex = "<<ab->arr_person[index].sex
+            <<"\tage = "<<ab->arr_person[index].age<<"\tphonenum = "<<ab->arr_person[index].phonenum
+            <<"\taddress = "<<ab->arr_person[index].address<<endl;
+
+        cout<<"请输入修改联系人的姓名"<<endl;
+        cin>>ab->arr_person[index].name;
+        cout<<"请输入修改联系人的性别"<<endl;
+        cin>>ab->arr_person[index].sex;
+        cout<<"请输入修改联系人的年龄"<<endl;
+        cin>>ab->arr_person[index].age;
+        cout<<"请输入修改联系人的电话"<<endl;
+        cin>>ab->arr_person[index].phonenum;
+        cout<<"请输入修改联系人的地址"<<endl;
+        cin>>ab->arr_person[index].address;
+
+        /* 可用switch修改某一特定项，不再细写
+        string item;
+        cout<<"请输入要修改的项（name、age、sex、address、phonenum）"<<endl;
+        cin>>item;
+        switch(item)
+        {
+        case "name":
+            ab->arr_person[index].name =
+        }
+        */
+
+        cout<<"********** 修改完成!!! **********"<<endl;
+
+        cout<<"该联系人的信息为"<<endl;
+        cout<<"name = "<<ab->arr_person[index].name<<"\tsex = "<<ab->arr_person[index].sex
+            <<"\tage = "<<ab->arr_person[index].age<<"\tphonenum = "<<ab->arr_person[index].phonenum
+            <<"\taddress = "<<ab->arr_person[index].address<<endl;
+    }
+
+}
+
+void EmptyPerson(struct AddressBook *ab)
+{
+    ab->len_now = 0;
+    cout<<"********** 清空完成!!! **********";
+}
+
+int main()
+{
+    struct AddressBook b;
+    InitAB(&b);
+    int i = 0;
+    string name_s;
+
+    DisplayMenu();
+    cout<<"请输入你的操作"<<endl;
+    cin>>i;
+
+    while(i)
+    {
+        switch(i)
+        {
+        case 1:
+            AddPerson(&b);
+            break;
+        case 2:
+            DisplayAB(&b);
+            break;
+        case 3:
+            cout<<"请输入欲操作人姓名"<<endl;
+            cin>>name_s;
+
+            DeleteAB(&b,name_s);
+            break;
+        case 4:
+            cout<<"请输入欲操作人姓名"<<endl;
+            cin>>name_s;
+            SearchPerson(&b,name_s);
+            break;
+        case 5:
+            cout<<"请输入欲操作人姓名"<<endl;
+            cin>>name_s;
+            ModifyPerson(&b,name_s);
+            break;
+        case 6:
+            EmptyPerson(&b);
+            break;
+        case 0:
+            cout << "欢迎下次使用" << endl;
+            return 0;
+        default:
+            break;
+        }
+
+        DisplayMenu();
+        cout<<"请输入你的操作"<<endl;
+        cin>>i;
+    }
+    return 0 ;
+
+}

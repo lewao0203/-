@@ -1,0 +1,61 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-02
+
+Description:冒泡排序
+            1、相邻元素比较、若第一个大于第二个，则交换位置
+            2、重复第一步但比较次数减1
+            3、重复12步，直到比较完成
+
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+/*************************************************
+
+目的：使数组元素升序排列
+异常：
+操作：获取数组元素个数。建立两个循环，第一个从1到L-1，代表第几次操作。第二个为比较的次数,
+疑问：
+
+**************************************************/
+int main()
+{
+    int arr[] = {3,5,1,2,4,6,7,9,8};
+    int temp = 0;
+    int length_arr = sizeof(arr)/sizeof(arr[0]);
+
+    cout<<"数组长度为  "<<length_arr<<endl;
+    int times_comp = length_arr;
+
+    cout<<"排序前数组元素为"<<endl;
+    for(int e=0;e<9;e++)
+        cout<<arr[e]<<'\t';
+
+    cout<<endl;
+    for(int times_op=1;times_op<length_arr;times_op++)
+    {
+        for(int i=1;i<times_comp;i++)
+        {
+            if(arr[i-1]>arr[i])
+            {
+                temp = arr[i];
+                arr[i] = arr[i-1];
+                arr[i-1] = temp;
+            }
+        }
+        cout<<arr[times_comp-1]<<'\t';
+        times_comp -- ;
+
+    }
+    cout<<arr[0]<<endl;
+
+}

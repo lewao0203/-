@@ -1,0 +1,63 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-05
+
+Description:冒泡排序将结构体按年龄排序
+            要求构建英雄结构体：姓名、年龄、性别
+
+noted :
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+struct Heros
+{
+    string name;
+    int age;
+    string sex;
+};
+void arr_aort(struct Heros H[],int len)
+{
+    struct Heros tmp;
+    for(int i=1;i<len;i++)
+    {
+        for(int j=1;j<=len-i;j++)
+        {
+            if(H[j-1].age > H[j].age)
+            {
+                tmp = H[j];
+                H[j] = H[j-1];
+                H[j-1] = tmp;
+            }
+        }
+    }
+}
+
+int main()
+{
+    struct Heros arr_heros[5] ={{"曹操",40,"男"},{"刘备",45,"男"},{"孙权",20,"男"},{"赵云",30,"男"},{"孙尚香",18,"女"}};
+    int arr_len = sizeof(arr_heros)/sizeof(arr_heros[0]);
+    cout<<"排序前"<<endl;
+    for(int i=0;i<arr_len;i++)
+    {
+        cout<<"第"<<i+1<<"个英雄信息为"<<'\n'<<"name = "<<arr_heros[i].name<<"\tage = "<<arr_heros[i].age<<"\tsex = "<<arr_heros[i].sex<<endl;
+
+    }
+    arr_aort(arr_heros,arr_len);
+    cout<<"排序后"<<endl;
+    for(int i=0;i<arr_len;i++)
+    {
+        cout<<"第"<<i+1<<"个英雄信息为"<<'\n'<<"name = "<<arr_heros[i].name<<"\tage = "<<arr_heros[i].age<<"\tsex = "<<arr_heros[i].sex<<endl;
+
+    }
+
+}

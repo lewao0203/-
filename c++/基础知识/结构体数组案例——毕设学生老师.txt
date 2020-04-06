@@ -1,0 +1,75 @@
+/*************************************************
+
+Copyright:
+
+Author:Lewao
+
+Date:2020-04-05
+
+Description:总共三名老师，每个老师带五个学生。
+            老师结构：姓名、五名学生的数组
+            学生结构：姓名、考试分数
+            创建数组存放三名老师，通过函数给三个老师所带学生进行赋值
+
+noted : 1、line44：不能直接加，+号两边必须有string类型
+        2、子函数参数虽写的指针，下面t[i]仍为数组，直接用。
+**************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+struct Student
+{
+    string name;
+    int score;
+};
+
+struct Teacher
+{
+    string name;
+    struct Student arr_stu[5];
+};
+
+void identify(struct Teacher *t,int len)   // 注意此处虽写的指针，下面t[i]仍为数组，直接用。
+{
+    string t_name = "ABCD";
+    string st_name = "12345";
+
+    int len_st = sizeof(t[0].arr_stu)/sizeof(t[0].arr_stu[0]);
+    for(int i=0;i<len;i++)
+    {
+        t[i].name = "Teacher_";   //不能直接加，+号两边必须有string类型
+        t[i].name += t_name[i];
+
+        for(int j=0;j<len_st;j++)
+        {
+            t[i].arr_stu[j].score = 40 + j*10;
+            t[i].arr_stu[j].name = t[i].name + st_name[j];
+        }
+
+    }
+
+}
+int main()
+{
+    struct Teacher arr_t[3];
+    int arr_length = sizeof(arr_t)/sizeof(arr_t[0]);
+
+
+    identify(arr_t,arr_length);
+    for(int i=0;i<arr_length;i++)
+    {
+        cout<<"第"<<i+1<<"个老师的信息为"<<'\n'<<"name = "<<arr_t[i].name<<"学生信息为:"<<endl;
+        cout<<'\t'<<"name = "<<arr_t[i].arr_stu[0].name<<'\t'<<"score = "<<arr_t[i].arr_stu[0].score<<endl;
+        cout<<'\t'<<"name = "<<arr_t[i].arr_stu[1].name<<'\t'<<"score = "<<arr_t[i].arr_stu[1].score<<endl;
+        cout<<'\t'<<"name = "<<arr_t[i].arr_stu[2].name<<'\t'<<"score = "<<arr_t[i].arr_stu[2].score<<endl;
+        cout<<'\t'<<"name = "<<arr_t[i].arr_stu[3].name<<'\t'<<"score = "<<arr_t[i].arr_stu[3].score<<endl;
+        cout<<'\t'<<"name = "<<arr_t[i].arr_stu[4].name<<'\t'<<"score = "<<arr_t[i].arr_stu[4].score<<endl;
+
+    }
+
+}
