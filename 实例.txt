@@ -1,0 +1,147 @@
+/*
+    电脑组成部件为：cpu、显卡、内存条
+    将每个零件封装成抽象基类，且提供不同的·厂家
+    创建电脑类，使电脑工作，且调用各零件
+    测试时组装三台电脑工作。
+*/
+#include <iostream>
+
+using namespace std;
+// 多态条件：1、继承；2、重写虚函数
+class CPU
+{
+public:
+    virtual void calculate() = 0;
+};
+
+class IntelCPU : public CPU
+{
+public:
+    void calculate()
+    {
+        cout<<"Intel CPU is running"<<endl;
+    }
+};
+class LenovoCPU : public CPU
+{
+public:
+    void calculate()
+    {
+        cout<<"Lenovo CPU is running"<<endl;
+    }
+};
+
+class VideoCard
+{
+public:
+    virtual void display() = 0;
+};
+
+class LenovoVideoCard : public VideoCard
+{
+public:
+    void display()
+    {
+        cout<<"Lenovo VideoCard is running"<<endl;
+    }
+};
+
+class IntelVideoCard : public VideoCard
+{
+public:
+    void display()
+    {
+        cout<<"Intel VideoCard is running"<<endl;
+    }
+};
+
+class Memory
+{
+public:
+    virtual void storage() = 0;
+};
+
+class IntelMemory : public Memory
+{
+public:
+    void storage()
+    {
+        cout<<"Intel Memory is running"<<endl;
+    }
+};
+
+class LenovoMemory : public Memory
+{
+public:
+    void storage()
+    {
+        cout<<"Lenovo Memory is running"<<endl;
+    }
+};
+
+// 计算机类：属性和方法
+class Computer
+{
+//    CPU c_c;       纯虚函数不可定义
+//    VideoCard c_v;
+//    Memory c_m;
+    CPU *c_c;
+    VideoCard *c_v;
+    Memory *c_m;
+
+public:
+    Computer( CPU *c1, VideoCard *v1, Memory *m1)
+    {
+        this->c_c = c1;
+        this->c_m = m1;
+        this->c_v = v1;
+    }
+
+    void DoWork()
+    {
+        this->c_c->calculate();
+        this->c_v->display();
+        this->c_m->storage();
+    }
+
+    virtual ~Computer()
+    {
+        if(c_c != NULL)
+        {
+            delete c_c;
+            c_c = NULL;
+        }
+        if(c_v != NULL)
+        {
+            delete c_v;
+            c_v = NULL;
+        }
+        if(c_m != NULL)
+        {
+            delete c_m;
+            c_m = NULL;
+        }
+    }
+
+
+};
+int main()
+{
+    CPU *c = new IntelCPU;
+    VideoCard *v = new IntelVideoCard;
+    Memory *m = new IntelMemory;
+
+    Computer cp(c,v,m);
+    cp.DoWork();
+
+    CPU *c2 = new IntelCPU;
+    VideoCard *v2 = new IntelVideoCard;
+    Memory *m2 = new LenovoMemory;
+
+    Computer cp2(c2,v2,m2);
+    cp2.DoWork();
+    return 0;
+
+}
+
+

@@ -1,0 +1,83 @@
+/*
+    普通写法和多态写法，实现两个操作数的计算
+*/
+#include <iostream>
+
+using namespace std;
+
+// 传统类计算
+class Calculate
+{
+    int c_num1;
+    int c_num2;
+
+public:
+    Calculate(int num1,int num2):c_num1(num1),c_num2(num2){};
+
+    int operato(string st)
+    {
+        if(st == "+")
+            return this->c_num1 + this->c_num2;
+        else if(st == "-")
+            return this->c_num1 - this->c_num2;
+        else if(st == "*")
+            return this->c_num1 * this->c_num2;
+        else
+            return 0;
+    }
+};
+
+// 多态类进行计算器运算
+// 多态要求：1、继承，2、重写父类虚函数
+class My_Calculate
+{
+//    int c_num1;   // 若是私有的，继承后不能访问
+//    int c_num2;
+
+public:
+    int c_num1;
+    int c_num2;
+public:
+
+    virtual int operato() = 0;
+
+};
+
+class Addoperato : public My_Calculate
+{
+public:
+    int operato()
+    {
+        return this->c_num1 + this->c_num2;
+    }
+};
+
+class Minusoperato : public My_Calculate
+{
+public:
+    int operato()
+    {
+        return this->c_num1 - this->c_num2;
+    }
+};
+class Multipoperato : public My_Calculate
+{
+public:
+    int operato()
+    {
+        return this->c_num1 * this->c_num2;
+    }
+};
+int main()
+{
+    // 多态使用条件：父类指针或引用指向子类对象
+    My_Calculate *cal = new Minusoperato;
+//    Addoperato add;
+//    My_Calculate& cal2 = add;
+
+    cal->c_num1 = 10;
+    cal->c_num2 = 20;
+    cout<<cal->operato()<<endl;
+    // cout<<cal2.operato()<<endl;
+    delete cal;
+}

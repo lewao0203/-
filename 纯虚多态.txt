@@ -1,0 +1,87 @@
+
+/*
+    制作饮品的流程：煮水-冲泡-倒入杯中-加入辅料
+    利用多态实现，提供抽象基类，提供子类制作咖啡和茶
+*/
+#include <iostream>
+
+using namespace std;
+// 多态实现条件：1、继承；2、重写虚函数
+class MakeDrink
+{
+public:
+    void Boil()  // 子类不重写。可不用虚函数
+    {
+        cout<<"把水煮开"<<endl;
+    }
+    virtual void Chongpao() = 0;
+    void cup()
+    {
+        cout<<"倒入杯中"<<endl;
+    }
+    virtual void AddAssis() = 0;
+
+    MakeDrink()
+    {
+        cout<<"父类的构造函数"<<endl;
+    }
+    ~MakeDrink()
+    {
+        cout<<"父类的析构函数"<<endl;
+    }
+    void Dosome()
+    {
+        Boil();
+        Chongpao();
+        cup();
+        AddAssis();
+    }
+};
+
+class MakeCoffee : public MakeDrink
+{
+public:
+    void Chongpao()
+    {
+        cout<<"冲咖啡"<<endl;
+    }
+    void AddAssis()
+    {
+        cout<<"加糖"<<endl;
+    }
+    MakeCoffee()
+    {
+        cout<<"子类的构造函数"<<endl;
+    }
+    ~MakeCoffee()
+    {
+        cout<<"子类的析构函数"<<endl;
+    }
+};
+
+class MakeTrEA : public MakeDrink
+{
+public:
+    void Chongpao()
+    {
+        cout<<"冲CHA"<<endl;
+    }
+    void AddAssis()
+    {
+        cout<<"XXXX"<<endl;
+    }
+};
+int main()
+{
+    MakeDrink *mk = new MakeCoffee;
+    mk->Dosome();
+    delete mk;
+    MakeDrink *mk2 = new MakeTrEA;
+    mk2->Dosome();
+    delete mk2;
+    return 0;
+
+}
+
+
+// 父类构造函数、、、子类构造函数、、、、父类析构（无子类析构）

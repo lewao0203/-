@@ -1,0 +1,70 @@
+/*
+    函数参数传递方式
+*/
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+template <class NameType,class AgeType>
+class Person
+{
+public:
+
+    Person(NameType name,AgeType age);
+    Person()       // 无参构造一定要有，不然下列继承会报错
+    {
+        cout<<"无参构造"<<endl;
+    }
+    void ShowPerson();
+    NameType c_name;
+    AgeType c_age;
+
+
+};
+
+// 构造函数的 类内定义，类外实现
+template <class NameType,class AgeType>
+Person<NameType,AgeType>::Person(NameType name,AgeType age)
+{
+    this->c_name = name;
+    this->c_age = age;
+    cout<<"构造函数"<<endl;
+};
+
+// 普通函数的类外实现
+template <class NameType,class AgeType>
+void Person<NameType,AgeType> :: ShowPerson()
+{
+    cout<<"年龄为"<<this->c_age<<"姓名为"<<this->c_name<<endl;
+};
+
+// 参数传递
+// void Display(const Person<string,int> p)   // 错，常对象不能调用非常成员函数
+void Display(Person<string,int>& p)
+{
+    p.ShowPerson();
+}
+// 继承
+class Asians : public Person<string,int> // 第一种是直接给定类型
+//template <class T1,class T2>
+//class Asians : public Person<T1,T2>
+{
+
+};
+int main()
+{
+
+    Person<string,int> p("lewao",11);
+    Display(p);
+
+    Asians as;   // 直接给定时，则子函数无需加模板参数列表，因为此时子类不是模板类
+    // Asians<string,int> as  // 子模板类也需要在创建对象时，加模板参数列表
+    as.c_age = 11;
+    as.c_name = "sss";
+    as.ShowPerson();
+    return 0;
+
+}
+
+

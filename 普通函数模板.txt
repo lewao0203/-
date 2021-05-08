@@ -1,0 +1,67 @@
+
+    普通函数和函数模板的区别
+        普通函数可以发生隐式类型转换，而函数模板：
+        1、自动类型不可隐式转换   2、指定类型可发生隐式转换
+
+#include iostream
+#include fstream
+
+using namespace std;
+
+class Person
+{
+public
+    Person(string name,int age)c_name(name),c_age(age){};
+    string c_name;
+    int c_age;
+};
+
+template class T,class T1     普通函数模板也可有两个类型
+int add(T a,T1 b)
+{
+    return a+b;
+}
+template class T
+void swap1(T&a,T&b)
+{
+    T temp = a;
+    a = b;
+    b = temp;
+
+}
+
+template void swap1(Person& p1,Person&p2)
+{
+    Person temp(q,11);    报错（自定义了构造函数，便不再提供默认构造函数）
+    temp.c_age = p1.c_age;
+    temp.c_name = p1.c_name;
+
+    p1.c_age = p2.c_age;
+    p1.c_name = p2.c_name;
+
+    p2.c_age = temp.c_age;
+    p2.c_name = temp.c_name;
+
+}
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    char c = 'a';
+    普通函数调用
+    swap1(a,b);
+    couta = ab = bendl;
+
+    Person p1(lewao,1);
+    Person p2(shuayuan,2);
+
+    swap1(p1,p2);
+    coutp1.c_agep1.c_nameendl;
+
+    coutaddint,char(a,c)endl;
+    return 0;
+
+}
+
+

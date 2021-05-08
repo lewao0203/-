@@ -1,0 +1,87 @@
+
+#include <iostream>
+
+using namespace std;
+// 多态实现条件：1、继承；2、重写虚函数
+class Animal
+{
+public:
+    Animal()
+    {
+        cout<<"父类构造函数"<<endl;
+    }
+    ~Animal()
+    {
+        cout<<"父类的析构函数"<<endl;
+    }
+    virtual void speak() = 0;
+};
+
+class Cat : public Animal
+{
+public:
+
+    Cat()
+    {
+        cout<<"猫类的构造函数"<<endl;
+    }
+    ~Cat()
+    {
+        cout<<"猫类的析构函数"<<endl;
+    }
+    void speak()
+    {
+        cout<<"猫在叫"<<endl;
+    }
+};
+
+class Dog : public Animal
+{
+public:
+
+    Dog()
+    {
+        cout<<"狗类的构造函数"<<endl;
+    }
+    ~Dog()
+    {
+        cout<<"狗类的析构函数"<<endl;
+    }
+    void speak()
+    {
+        cout<<"狗类叫"<<endl;
+    }
+};
+int main()
+{
+    Cat c;
+    Animal& ani = c;
+    ani.speak();
+
+    Animal *ani2 = new Dog;
+    ani2->speak();
+    delete ani2;
+
+    Dog c2;
+    Animal& ani3 = c2;
+    ani3.speak();
+    return 0;
+
+}
+/*
+父类构造函数
+猫类的构造函数
+猫在叫
+父类构造函数
+狗类的构造函数
+狗类叫
+父类的析构函数
+父类构造函数
+狗类的构造函数
+狗类叫
+狗类的析构函数
+父类的析构函数
+猫类的析构函数
+父类的析构函数
+*/
+
